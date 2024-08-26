@@ -5,21 +5,21 @@ from imblearn.under_sampling import RandomUnderSampler
 import re
 import joblib
 
-# Initialize the RandomUnderSampler
-enn = RandomUnderSampler()
+# # Initialize the RandomUnderSampler
+# enn = RandomUnderSampler()
 
-# Load and preprocess the data
-data = pd.read_csv("final.csv")
-result = data["v1"]
-data = data.drop(["v1"], axis=1)
+# # Load and preprocess the data
+# data = pd.read_csv("final.csv")
+# result = data["v1"]
+# data = data.drop(["v1"], axis=1)
 
-# Initialize the TF-IDF Vectorizer and fit it on the data
-tfidf_vectorizer = TfidfVectorizer()
-array = tfidf_vectorizer.fit_transform(data["v2"])
-data = array.toarray()
+# # Initialize the TF-IDF Vectorizer and fit it on the data
+# tfidf_vectorizer = TfidfVectorizer()
+# array = tfidf_vectorizer.fit_transform(data["v2"])
+# data = array.toarray()
 
-# Perform undersampling
-data, result = enn.fit_resample(data, result)
+# # Perform undersampling
+# data, result = enn.fit_resample(data, result)
 
 # Define preprocessing functions
 def html_tag_removal(text):
@@ -36,6 +36,7 @@ def input_preprocess(txt):
     txt = remove_urls(txt)
     txt = html_tag_removal(txt)
     txt = re.sub(r'[^\w\s]', '', txt)
+    tfidf_vectorizer = joblib.load('tfidf_vectorizer.joblib')
     array = tfidf_vectorizer.transform([txt])
     return array.toarray()
 
